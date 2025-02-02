@@ -1,97 +1,110 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+Overview
 
-# Getting Started
+This is a React Native CRUD application that demonstrates the use of SQLite for offline storage, Redux Toolkit for state management, and basic Create, Read, Update, Delete (CRUD) operations. Additionally, it includes a data synchronization mechanism to push offline-stored data to the server when the internet connection is restored.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+Features
+Offline Data Storage using SQLite.
 
-## Step 1: Start Metro
+Redux Toolkit for centralized state management.
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+CRUD Operations (Add, Edit, Delete items).
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+Navigation with React Navigation.
 
-```sh
-# Using npm
-npm start
+Validation for input fields.
 
-# OR using Yarn
-yarn start
-```
+Sync Mechanism:
 
-## Step 2: Build and run your app
+If there's no internet, new data is stored in a sync queue in SQLite.
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+When the internet is available, the pending records are pushed to the server.
 
-### Android
+After successful sync, records are deleted from the sync queue.
 
-```sh
-# Using npm
-npm run android
+Profile Page:
 
-# OR using Yarn
-yarn android
-```
+Displays user profile information fetched from Redux state.
 
-### iOS
+Allows updating profile details with a simple form.
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+project-root/
+│── src/
+│   ├── components/       # Reusable UI components
+│   ├── screens/          # Screens/ local components and styles
+│   ├── redux/            # Redux setup (store, slices)
+│   ├── database/         # SQLite setup and query
+│   ├── styles/           # Separate styling files
+│   ├── navigation/       # App navigation setup
+|   ├── types             # predefined types for props and methods
+│── App.tsx               # Entry point of the app
+│── package.json          # Project dependencies
+│── README.md             # Project documentation
 
-```sh
-bundle install
-```
+Clone the repository:
+git clone  git url
+cd stantechat
 
-Then, and every time you update your native dependencies, run:
+Install dependencies:
+yarn install
+# OR
+npm install
 
-```sh
-bundle exec pod install
-```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+Run the project:
 
-```sh
-# Using npm
-npm run ios
+For Android:
+npx react-native run-android
 
-# OR using Yarn
-yarn ios
-```
+For iOS:
+npx pod-install
+npx react-native run-ios
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+Usage
 
-## Step 3: Modify your app
+Open the app and see the list of items.
 
-Now that you have successfully run the app, let's make changes!
+Click Add New Item to create an entry.
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+Click Edit on an item to modify it.
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+Click Delete to remove an item from the list.
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+If offline, new data will be stored locally in the sync queue and automatically sent to the server when online.
 
-## Congratulations! :tada:
+Go to the Profile Page to view and update user details.
 
-You've successfully run and modified your React Native App. :partying_face:
 
-### Now what?
+Sync Logic
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+Uses react-native-netinfo to detect network connectivity.
 
-# Troubleshooting
+If offline, new records are stored in a sync table in SQLite.
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+When the internet is back, pending records are automatically sent to the server.
 
-# Learn More
+After a successful API request, records are deleted from the sync table.
 
-To learn more about React Native, take a look at the following resources:
+SQLite database supports full CRUD operations.
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+
+
+Technologies Used
+
+React Native 0.77
+
+Redux Toolkit for state management
+
+SQLite for offline database
+
+React Navigation for screen navigation
+
+NetInfo for network status monitoring
+
+
+Known Issues & Assumptions
+
+The app does not handle real-time two-way sync (only client-to-server push).
+
+Deleted items are removed permanently without a soft delete.
